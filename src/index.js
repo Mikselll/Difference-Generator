@@ -1,6 +1,7 @@
-import { resolve } from 'path';
+import { resolve, extname } from 'path';
 import { readFileSync } from 'fs';
 import _ from 'lodash';
+import parse from './parsers.js';
 
 const makeArrayDiff = (obj1, obj2) => {
   const keys = _.sortBy(_.union(_.keys(obj1), _.keys(obj2)));
@@ -24,9 +25,11 @@ const makeArrayDiff = (obj1, obj2) => {
   return result;
 };
 
+const readFile = (file) => (readFileSync(resolve(file), 'utf-8'));
+
 const genDiff = (file1, file2) => {
-  const obj1 = JSON.parse(readFileSync(resolve(file1), 'utf-8'));
-  const obj2 = JSON.parse(readFileSync(resolve(file2), 'utf-8'));
+  const obj1 = parse(readFile(file1), extname(file1).slice(1));
+  const obj2 = parse(readFile(file2), extname(file2).slice(1));
 
   const arrdiff = makeArrayDiff(obj1, obj2);
   const result = arrdiff.map((item) => {
