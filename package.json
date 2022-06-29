@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "bin": {
     "gendiff": "bin/gendiff.js"
-},
+  },
   "scripts": {
     "test": "npx jest"
   },
@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Mikselll/frontend-project-lvl2#readme",
   "dependencies": {
     "commander": "^9.3.0",
+    "js-yaml": "^4.1.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
