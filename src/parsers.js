@@ -7,7 +7,7 @@ const parse = (data, extension) => {
   if (extension === 'json') {
     return JSON.parse(data);
   }
-  return 'extension not found';
+  return `The ${extension} is not supported!`;
 };
 
 export default parse;
