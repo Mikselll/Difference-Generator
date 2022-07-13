@@ -1,16 +1,16 @@
 import _ from 'lodash';
 
-const plain = (diffTree) => {
-  const nameOfValue = (value) => {
-    if (_.isObject(value) && value !== null) {
-      return `${'[complex value]'}`;
-    }
-    if (_.isString(value)) {
-      return `'${value}'`;
-    }
-    return value;
-  };
+const nameOfValue = (value) => {
+  if (_.isObject(value) && value !== null) {
+    return `${'[complex value]'}`;
+  }
+  if (_.isString(value)) {
+    return `'${value}'`;
+  }
+  return value;
+};
 
+const plain = (diffTree) => {
   const buildPlainTree = (data, valuePath = '') => {
     const tree = data
       .filter((object) => object.type !== 'unchanged')
