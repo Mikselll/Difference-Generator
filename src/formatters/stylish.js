@@ -1,15 +1,15 @@
 import _ from 'lodash';
 
-const stylish = (diffTree) => {
-  const stringify = (objectValue, spaceCount) => {
-    const iter = (data, space) => (
-      Object.entries(data).map(([key, value]) => (_.isObject(value)
-        ? `${' '.repeat(space)}${key}: {\n${iter(value, space + 4)}\n${' '.repeat(space)}}`
-        : `${' '.repeat(space)}${key}: ${value}`)).join('\n')
-    );
-    return !_.isObject(objectValue) ? `${objectValue}` : `{\n${iter(objectValue, spaceCount)}\n${' '.repeat(spaceCount - 4)}}`;
-  };
+const stringify = (objectValue, spaceCount) => {
+  const iter = (data, space) => (
+    Object.entries(data).map(([key, value]) => (_.isObject(value)
+      ? `${' '.repeat(space)}${key}: {\n${iter(value, space + 4)}\n${' '.repeat(space)}}`
+      : `${' '.repeat(space)}${key}: ${value}`)).join('\n')
+  );
+  return !_.isObject(objectValue) ? `${objectValue}` : `{\n${iter(objectValue, spaceCount)}\n${' '.repeat(spaceCount - 4)}}`;
+};
 
+const stylish = (diffTree) => {
   const buildStylishTree = (data, space) => {
     const tree = data.map((object) => {
       if (object.type === 'nested') {
