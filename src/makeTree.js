@@ -12,7 +12,7 @@ const makeTree = (obj1, obj2) => {
     if (!_.has(obj2, key)) {
       return { name: key, value: value1, type: 'removed' };
     }
-    if (_.isObject(value1) && _.isObject(value2)) {
+    if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
       return { name: key, type: 'nested', children: makeTree(value1, value2) };
     }
     if (value1 !== value2) {
