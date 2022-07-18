@@ -1,13 +1,13 @@
 import { load } from 'js-yaml';
 
-const parse = (data, extension) => {
-  if (extension === 'yaml' || extension === 'yml') {
+const parse = (data, type) => {
+  if (type === 'yaml' || type === 'yml') {
     return load(data);
   }
-  if (extension === 'json') {
+  if (type === 'json') {
     return JSON.parse(data);
   }
-  return `The ${extension} is not supported!`;
+  return `The ${type} is not supported!`;
 };
 
 export default parse;
