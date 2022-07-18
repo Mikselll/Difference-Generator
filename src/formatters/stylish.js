@@ -11,12 +11,12 @@ const stringify = (objectValue, spaceCount) => {
 
 const stylish = (diffTree) => {
   const buildStylishTree = (data, space) => {
-    const tree = data.map((object) => {
+    const tree = data.flatMap((object) => {
       if (object.type === 'nested') {
         return `${' '.repeat(space)}${object.name}: {\n${buildStylishTree(object.children, space + 4)}\n${' '.repeat(space)}}`;
       }
       if (object.type === 'changed') {
-        return `${' '.repeat(space - 2)}- ${object.name}: ${stringify(object.value1, space + 4)}\n${' '.repeat(space - 2)}+ ${object.name}: ${stringify(object.value2, space + 4)}`;
+        return [`${' '.repeat(space - 2)}- ${object.name}: ${stringify(object.value1, space + 4)}`, `${' '.repeat(space - 2)}+ ${object.name}: ${stringify(object.value2, space + 4)}`];
       }
       if (object.type === 'added') {
         return `${' '.repeat(space - 2)}+ ${object.name}: ${stringify(object.value, space + 4)}`;
