@@ -3,9 +3,19 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/b4b6f7f0d57b79a8c356/maintainability)](https://codeclimate.com/github/Mikselll/frontend-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b4b6f7f0d57b79a8c356/test_coverage)](https://codeclimate.com/github/Mikselll/frontend-project-lvl2/test_coverage)
 [![linter-test](https://github.com/Mikselll/frontend-project-lvl2/actions/workflows/linter-test.yml/badge.svg)](https://github.com/Mikselll/frontend-project-lvl2/actions/workflows/linter-test.yml)
-[![asciicast](https://asciinema.org/a/cWjk28VmQwLWsllLY34NOWNuW.svg)](https://asciinema.org/a/cWjk28VmQwLWsllLY34NOWNuW)
-[![asciicast](https://asciinema.org/a/apONQsX7yjD4xHyiung8f18px.svg)](https://asciinema.org/a/apONQsX7yjD4xHyiung8f18px)
-[![asciicast](https://asciinema.org/a/zLyjBxEPFBV3A6qkLeE8xhqBK.svg)](https://asciinema.org/a/zLyjBxEPFBV3A6qkLeE8xhqBK)
-[![asciicast](https://asciinema.org/a/NEUGWHvPCNgxqkN0qAKMSlZ0w.svg)](https://asciinema.org/a/NEUGWHvPCNgxqkN0qAKMSlZ0w)
+# The project "Difference Generator"
+Difference Generator is a program that determines the difference between two data structures.
+Utility features:
++ Works with different input formats: yaml, json
++ Report generation in the form of plain text, stylish and json
+## How to install the project?
+1. Clone this repository: https://github.com/Mikselll/frontend-project-lvl2
+2. Run the command: `make install`
+3. Run the command: `sudo npm link`
+## How to run program?
++ gendiff filepath1.yaml/json filepath2.yaml/json
+[![asciicast](https://asciinema.org/a/uJfjv1rTFndZYIVkKRZjBU7EY.svg)](https://asciinema.org/a/uJfjv1rTFndZYIVkKRZjBU7EY)
++ gendiff --format plain filepath1.yaml/json filepath2.yaml/json
 [![asciicast](https://asciinema.org/a/ebgOzsGE3LShAVWpIRDSJq03M.svg)](https://asciinema.org/a/ebgOzsGE3LShAVWpIRDSJq03M)
++ gendiff --format json filepath1.yaml/json filepath2.yaml/json
 [![asciicast](https://asciinema.org/a/y6bt6bEeUs9Y7aJNSeege2DtV.svg)](https://asciinema.org/a/y6bt6bEeUs9Y7aJNSeege2DtV)
