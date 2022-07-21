@@ -7,7 +7,7 @@ const parse = (data, type) => {
   if (type === 'json') {
     return JSON.parse(data);
   }
-  return `The ${type} is not supported!`;
+  throw new Error(`The ${type} is not supported!`);
 };
 
 export default parse;

@@ -1,30 +1,31 @@
 import _ from 'lodash';
 
 const stringify = (objectValue, spaceCount) => {
-  const iter = (data, space) => (
+  const iter = (data, spaceNum) => (
     Object.entries(data).map(([key, value]) => (_.isObject(value)
-      ? `${' '.repeat(space)}${key}: {\n${iter(value, space + 4)}\n${' '.repeat(space)}}`
-      : `${' '.repeat(space)}${key}: ${value}`)).join('\n')
+      ? `${' '.repeat(spaceNum)}${key}: {\n${iter(value, spaceNum + 4)}\n${' '.repeat(spaceNum)}}`
+      : `${' '.repeat(spaceNum)}${key}: ${value}`)).join('\n')
   );
   return !_.isObject(objectValue) ? `${objectValue}` : `{\n${iter(objectValue, spaceCount)}\n${' '.repeat(spaceCount - 4)}}`;
 };
 
 const stylish = (diffTree) => {
-  const buildStylishTree = (data, space) => {
+  const buildStylishTree = (data, spaceNum) => {
     const tree = data.flatMap((object) => {
       if (object.type === 'nested') {
-        return `${' '.repeat(space)}${object.name}: {\n${buildStylishTree(object.children, space + 4)}\n${' '.repeat(space)}}`;
+        return `${' '.repeat(spaceNum)}${object.name}: {\n${buildStylishTree(object.children, spaceNum + 4)}\n${' '.repeat(spaceNum)}}`;
       }
       if (object.type === 'changed') {
-        return [`${' '.repeat(space - 2)}- ${object.name}: ${stringify(object.value1, space + 4)}`, `${' '.repeat(space - 2)}+ ${object.name}: ${stringify(object.value2, space + 4)}`];
+        return [`${' '.repeat(spaceNum - 2)}- ${object.name}: ${stringify(object.value1, spaceNum + 4)}`,
+          `${' '.repeat(spaceNum - 2)}+ ${object.name}: ${stringify(object.value2, spaceNum + 4)}`];
       }
       if (object.type === 'added') {
-        return `${' '.repeat(space - 2)}+ ${object.name}: ${stringify(object.value, space + 4)}`;
+        return `${' '.repeat(spaceNum - 2)}+ ${object.name}: ${stringify(object.value, spaceNum + 4)}`;
       }
       if (object.type === 'removed') {
-        return `${' '.repeat(space - 2)}- ${object.name}: ${stringify(object.value, space + 4)}`;
+        return `${' '.repeat(spaceNum - 2)}- ${object.name}: ${stringify(object.value, spaceNum + 4)}`;
       }
-      return `${' '.repeat(space)}${object.name}: ${stringify(object.value, space)}`;
+      return `${' '.repeat(spaceNum)}${object.name}: ${stringify(object.value, spaceNum)}`;
     }).join('\n');
     return tree;
   };
