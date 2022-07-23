@@ -1,35 +1,35 @@
 import _ from 'lodash';
 
-const stringify = (objectValue, spaceCount) => {
-  const iter = (data, spaceNum) => (
+const stringify = (objectValue, depthNum) => {
+  const iter = (data, depthCount) => (
     Object.entries(data).map(([key, value]) => (_.isObject(value)
-      ? `${' '.repeat(spaceNum)}${key}: {\n${iter(value, spaceNum + 4)}\n${' '.repeat(spaceNum)}}`
-      : `${' '.repeat(spaceNum)}${key}: ${value}`)).join('\n')
+      ? `${'    '.repeat(depthCount)}${key}: {\n${iter(value, depthCount + 1)}\n${'    '.repeat(depthCount)}}`
+      : `${'    '.repeat(depthCount)}${key}: ${value}`)).join('\n')
   );
-  return !_.isObject(objectValue) ? `${objectValue}` : `{\n${iter(objectValue, spaceCount)}\n${' '.repeat(spaceCount - 4)}}`;
+  return !_.isObject(objectValue) ? `${objectValue}` : `{\n${iter(objectValue, depthNum)}\n${'    '.repeat(depthNum - 1)}}`;
 };
 
 const stylish = (diffTree) => {
-  const buildStylishTree = (data, spaceNum) => {
+  const buildStylishTree = (data, depthCount) => {
     const tree = data.flatMap((object) => {
       if (object.type === 'nested') {
-        return `${' '.repeat(spaceNum)}${object.name}: {\n${buildStylishTree(object.children, spaceNum + 4)}\n${' '.repeat(spaceNum)}}`;
+        return `${'    '.repeat(depthCount)}${object.name}: {\n${buildStylishTree(object.children, depthCount + 1)}\n${'    '.repeat(depthCount)}}`;
       }
       if (object.type === 'changed') {
-        return [`${' '.repeat(spaceNum - 2)}- ${object.name}: ${stringify(object.value1, spaceNum + 4)}`,
-          `${' '.repeat(spaceNum - 2)}+ ${object.name}: ${stringify(object.value2, spaceNum + 4)}`];
+        return [`${'    '.repeat(depthCount).slice(0, -2)}- ${object.name}: ${stringify(object.value1, depthCount + 1)}`,
+          `${'    '.repeat(depthCount).slice(0, -2)}+ ${object.name}: ${stringify(object.value2, depthCount + 1)}`];
       }
       if (object.type === 'added') {
-        return `${' '.repeat(spaceNum - 2)}+ ${object.name}: ${stringify(object.value, spaceNum + 4)}`;
+        return `${'    '.repeat(depthCount).slice(0, -2)}+ ${object.name}: ${stringify(object.value, depthCount + 1)}`;
       }
       if (object.type === 'removed') {
-        return `${' '.repeat(spaceNum - 2)}- ${object.name}: ${stringify(object.value, spaceNum + 4)}`;
+        return `${'    '.repeat(depthCount).slice(0, -2)}- ${object.name}: ${stringify(object.value, depthCount + 1)}`;
       }
-      return `${' '.repeat(spaceNum)}${object.name}: ${stringify(object.value, spaceNum)}`;
+      return `${'    '.repeat(depthCount)}${object.name}: ${stringify(object.value, depthCount)}`;
     }).join('\n');
     return tree;
   };
-  return `{\n${buildStylishTree(diffTree, 4)}\n}`;
+  return `{\n${buildStylishTree(diffTree, 1)}\n}`;
 };
 
 export default stylish;
