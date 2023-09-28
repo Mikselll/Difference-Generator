@@ -1,8 +1,14 @@
 import _ from 'lodash';
 
-const nameOfValue = (value) => {
-  if (_.isObject(value) && value !== null) {
-    return `${'[complex value]'}`;
+// 1. Переименовал переменные
+// 2. Убрал ненужное условие value !== null
+// 3. Убрал вложенную функцию buildPlainTree
+// 4. Упростил получение данных через деструктуризацию
+// 5. Объединил условия added и removed, чтобы избежать повторения кода
+
+const getNameValue = (value) => {
+  if (_.isObject(value)) {
+    return '[complex value]';
   }
   if (_.isString(value)) {
     return `'${value}'`;
@@ -10,26 +16,24 @@ const nameOfValue = (value) => {
   return value;
 };
 
-const plain = (diffTree) => {
-  const buildPlainTree = (data, valuePath = '') => {
-    const tree = data
-      .filter((object) => object.type !== 'unchanged')
-      .map((object) => {
-        const path = `${valuePath}.${object.name}`;
-        if (object.type === 'added') {
-          return `Property '${path.slice(1)}' was added with value: ${nameOfValue(object.value)}`;
-        }
-        if (object.type === 'removed') {
-          return `Property '${path.slice(1)}' was removed`;
-        }
-        if (object.type === 'changed') {
-          return `Property '${path.slice(1)}' was updated. From ${nameOfValue(object.value1)} to ${nameOfValue(object.value2)}`;
-        }
-        return buildPlainTree(object.children, path);
-      }).join('\n');
-    return tree;
-  };
-  return buildPlainTree(diffTree);
+const getPlainTree = (data, valuePath = '') => {
+  const lines = data
+    .filter((object) => object.type !== 'unchanged')
+    .map((object) => {
+      const {
+        name, type, value1, value2, value, children,
+      } = object;
+      const path = `${valuePath}.${name}`;
+      const propertyPath = path.slice(1);
+      if (['added', 'removed'].includes(type)) {
+        return `Property '${propertyPath}' ${type === 'removed' ? 'was removed' : `was added with value: ${getNameValue(value)}`}`;
+      }
+      if (type === 'changed') {
+        return `Property '${propertyPath}' was updated. From ${getNameValue(value1)} to ${getNameValue(value2)}`;
+      }
+      return getPlainTree(children, path);
+    });
+  return lines.join('\n');
 };
 
-export default plain;
+export default getPlainTree;
